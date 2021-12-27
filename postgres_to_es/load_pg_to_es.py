@@ -1,4 +1,3 @@
-import backoff
 from common.actions import ElasticIndexCreator, ElasticSaver
 
 

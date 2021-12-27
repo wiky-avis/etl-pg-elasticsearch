@@ -5,13 +5,12 @@ from common.resources import ResourcesMixin
 from elasticsearch.helpers import streaming_bulk
 from models.movies import FilmWork
 from settings import BLOCK_SIZE, BODY_SETTINGS, INDEX_NAME
-
-from postgres_to_es.sql.get_movies import SQL
+from sql.get_movies import SQL
 
 
 class PGSQLLoader(ResourcesMixin):
     def __call__(self) -> Tuple[FilmWork]:
-        cursor = self.resources.pg_conn.cursor()
+        cursor = self.get_pg_conn().cursor()
         cursor.execute(SQL)
 
         while True:
@@ -21,7 +20,7 @@ class PGSQLLoader(ResourcesMixin):
             for data in page:
                 yield FilmWork(**data)
 
-        self.resources.pg_conn.close()
+        self.get_pg_conn().close()
 
 
 class GenerateData:
@@ -69,7 +68,7 @@ class GenerateData:
 
 class ElasticIndexCreator(ResourcesMixin):
     def __call__(self):
-        self.resources.es_client.indices.create(
+        self.get_es_client().indices.create(
             index=INDEX_NAME,
             body=BODY_SETTINGS,
             ignore=400,
@@ -82,7 +81,7 @@ class ElasticSaver(ResourcesMixin):
         successes = 0
         failed = 0
         for ok, item in streaming_bulk(
-            client=self.resources.es_client,
+            client=self.get_es_client(),
             index="movies",
             actions=generate_actions(),
             chunk_size=BLOCK_SIZE,
