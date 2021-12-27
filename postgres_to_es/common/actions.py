@@ -4,8 +4,9 @@ from typing import Tuple
 from common.resources import ResourcesMixin
 from elasticsearch.helpers import streaming_bulk
 from models.movies import FilmWork
-from settings import BLOCK_SIZE
-from sql.get_movies import SQL
+from settings import BLOCK_SIZE, BODY_SETTINGS, INDEX_NAME
+
+from postgres_to_es.sql.get_movies import SQL
 
 
 class PGSQLLoader(ResourcesMixin):
@@ -23,12 +24,11 @@ class PGSQLLoader(ResourcesMixin):
         self.resources.pg_conn.close()
 
 
-class GenerateData(ResourcesMixin):
-    def __init__(self):
-        self.list_data = PGSQLLoader()
-
+class GenerateData:
     def __call__(self) -> dict:
-        for row in self.list_data():
+        list_data = PGSQLLoader()
+
+        for row in list_data():
             json_schema = {
                 "id": row.id,
                 "imdb_rating": row.rating,
@@ -67,17 +67,24 @@ class GenerateData(ResourcesMixin):
             yield json_data
 
 
-class ElasticSaver(ResourcesMixin):
-    def __init__(self):
-        self.generate_actions = GenerateData()
-
+class ElasticIndexCreator(ResourcesMixin):
     def __call__(self):
+        self.resources.es_client.indices.create(
+            index=INDEX_NAME,
+            body=BODY_SETTINGS,
+            ignore=400,
+        )
+
+
+class ElasticSaver(ResourcesMixin):
+    def __call__(self):
+        generate_actions = GenerateData()
         successes = 0
         failed = 0
         for ok, item in streaming_bulk(
             client=self.resources.es_client,
             index="movies",
-            actions=self.generate_actions(),
+            actions=generate_actions(),
             chunk_size=BLOCK_SIZE,
         ):
             if not ok:
