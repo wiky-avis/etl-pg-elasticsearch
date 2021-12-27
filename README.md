@@ -26,7 +26,7 @@ ETL-процесс для перекачки данных из Poestgresql в El
 
 ## Запуск скрипта
 
-    `python load_pg_to_es.py`
+    `python postgres_to_es/load_pg_to_es.py`
 
 После запуска скрипт автоматически создаст индекс movies в Elasticsearch и загрузит в него данные.
 
