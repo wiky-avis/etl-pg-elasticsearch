@@ -22,11 +22,11 @@ ETL-процесс для перекачки данных из Poestgresql в El
 
 Запустите docker-compose:
 
-    `docker-compose up -d`
+    `make up_local_compose`
 
 ## Запуск скрипта
 
-    `python postgres_to_es/load_pg_to_es.py`
+    `make run_script`
 
 После запуска скрипт автоматически создаст индекс movies в Elasticsearch и загрузит в него данные.
 
