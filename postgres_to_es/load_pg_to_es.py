@@ -2,7 +2,7 @@ import logging
 import json
 import sqlite3
 from collections import namedtuple
-from typing import List, Generator
+from typing import List, Generator, Any
 
 import backoff
 import psycopg2
@@ -12,7 +12,7 @@ from psycopg2.extras import DictCursor
 from elasticsearch import Elasticsearch
 from elasticsearch.helpers import streaming_bulk
 
-from const import BODY_SETTINGS, DSL, FIELD_NAMES, INDEX_NAME, URL
+from const import BODY_SETTINGS, DSL, INDEX_NAME, URL, BLOCK_SIZE
 from models import FilmWork
 
 SQL = """
@@ -61,10 +61,15 @@ def create_index(client):
     )
 
 
-def load_from_pgdb() -> List["FilmWork"]:
+def load_from_pgdb() -> Generator[FilmWork, Any, None]:
     cursor.execute(SQL)
-    results = cursor.fetchall()
-    return [FilmWork(**result) for result in results]
+
+    while True:
+        page = cursor.fetchmany(BLOCK_SIZE)
+        if not page:
+            break
+        for data in page:
+            yield FilmWork(**data)
 
 
 def generate_actions() -> dict:
@@ -98,7 +103,7 @@ def load_to_es():
     successes = 0
     failed = 0
     for ok, item in streaming_bulk(
-            client=es_client, index="movies", actions=generate_actions(),
+            client=es_client, index="movies", actions=generate_actions(), chunk_size=BLOCK_SIZE
     ):
         if not ok:
             failed += 1

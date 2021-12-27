@@ -1,4 +1,5 @@
 DSL = {'dbname': 'moviesdb', 'user': 'userdb', 'password': 'password', 'host': '127.0.0.1', 'port': 5432}
+BLOCK_SIZE = 100
 URL = "http://127.0.0.1:9200"
 INDEX_NAME = "movies"
 BODY_SETTINGS = {
