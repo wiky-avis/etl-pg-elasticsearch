@@ -1,5 +1,4 @@
-from common.actions import ElasticIndexCreator, ElasticSaver
-
+from common.actions import ElasticIndexCreator, PGSQLLoader, ElasticSaver
 
 if __name__ == "__main__":
     create_index = ElasticIndexCreator()
@@ -7,3 +6,6 @@ if __name__ == "__main__":
 
     pg_loader = ElasticSaver()
     pg_loader()
+    #
+    # pg = PGSQLLoader()
+    # pg()
