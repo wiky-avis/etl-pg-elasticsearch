@@ -1,4 +1,5 @@
-backoff==1.11.1
-elasticsearch==7.16.1
+black
+flake8
+isort
 psycopg2-binary==2.9.2
 pydantic==1.8.2
