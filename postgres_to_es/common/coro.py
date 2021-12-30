@@ -33,13 +33,14 @@ def producer_generator(target: Coroutine, *, cursor, storage: BaseStorage):
 @coroutine
 def transform_coroutine(target: Coroutine):
     while page := (yield):
+        movies = []
         for data in page:
-            target.send(FilmWork(**data))
+            movies.append(FilmWork(**data))
+        target.send(movies)
 
 
-@coroutine
-def generate_data_coroutine(target: Coroutine):
-    while data := (yield):
+def generate_data_coroutine(movies):
+    for data in movies:
         json_schema = {
             "id": data.id,
             "imdb_rating": data.rating,
@@ -75,18 +76,18 @@ def generate_data_coroutine(target: Coroutine):
         }
         json_data = json.dumps(json_schema)
 
-        target.send(json_data)
+        yield json_data
 
 
 @coroutine
 def coro_loader(es_client):
-    while json_data := (yield):
+    while movies := (yield):
         successes = 0
         failed = 0
         for ok, item in streaming_bulk(
             client=es_client,
             index="movies",
-            actions=json_data(),
+            actions=generate_data_coroutine(movies),
             chunk_size=BLOCK_SIZE,
         ):
             if not ok:
