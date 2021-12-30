@@ -1,17 +1,15 @@
-from dataclasses import dataclass
-from typing import Optional
 import os
+from dataclasses import dataclass
 from pathlib import Path
+from typing import Optional
 
 import psycopg2
 from base.decorators import backoff
-from base.state_manager import BaseStorage
+from base.state_manager import BaseStorage, JsonFileStorage
 from elasticsearch import Elasticsearch
 from psycopg2.extensions import connection as _connection
 from psycopg2.extras import DictCursor
 from settings import DSL, URL
-
-from base.state_manager import JsonFileStorage
 
 
 BASEDIR = Path(__file__).resolve(strict=True).parent.parent
@@ -30,7 +28,9 @@ class ResourcesMixin:
         return Resources(
             es_client=Elasticsearch(URL),
             pg_conn=psycopg2.connect(**DSL, cursor_factory=DictCursor),
-            storage=JsonFileStorage(os.path.join(BASEDIR, 'film_work_state.json')),
+            storage=JsonFileStorage(
+                os.path.join(BASEDIR, "film_work_state.json")
+            ),
         )
 
     @backoff()
