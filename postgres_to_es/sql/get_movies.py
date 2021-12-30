@@ -24,10 +24,12 @@ SQL = """
     LEFT JOIN content.genre g on gfw.genre_id = g.id
     GROUP BY fw.id
     )
-    SELECT fw.id, title, description, rating, x.actors_ids, x.actors_names, y.directors_ids, y.directors_names, z.writers_ids, z.writers_names, g.genres_ids, g.genres_names
+    SELECT fw.id, title, description, rating, updated_at, x.actors_ids, x.actors_names, y.directors_ids, y.directors_names, z.writers_ids, z.writers_names, g.genres_ids, g.genres_names
     FROM content.film_work fw 
     LEFT JOIN x ON fw.id = x.id
     LEFT JOIN y ON fw.id = y.id
     LEFT JOIN z ON fw.id = z.id
     LEFT JOIN g ON fw.id = g.id
+    WHERE updated_at >= %s
+    ORDER BY updated_at
 """
