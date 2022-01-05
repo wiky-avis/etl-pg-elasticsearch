@@ -1,0 +1,12 @@
+{
+  "properties": {
+    "object_info_field": {
+      "properties": {
+        "new_field": {
+          "analyzer": "russian_analyzer",
+          "type": "text"
+        }
+      }
+    }
+  }
+}

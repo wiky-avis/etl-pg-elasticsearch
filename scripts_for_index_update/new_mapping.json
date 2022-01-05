@@ -1,0 +1,28 @@
+{
+  "properties": {
+    "type": {
+      "properties": {
+        "type": {
+          "analyzer": "ru_en",
+          "type": "text"
+        }
+      }
+    },
+    "created_at": {
+      "properties": {
+        "type": {
+          "analyzer": "ru_en",
+          "type": "text"
+        }
+      }
+    },
+    "updated_at": {
+      "properties": {
+        "type": {
+          "analyzer": "ru_en",
+          "type": "text"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "mappings": {
+    "dynamic": "strict",
+    "properties": {
+      "actors": {
+        "dynamic": "strict",
+        "properties": {
+          "id": {
+            "type": "keyword"
+          },
+          "name": {
+            "analyzer": "ru_en",
+            "type": "text"
+          }
+        },
+        "type": "nested"
+      },
+      "actors_names": {
+        "analyzer": "ru_en",
+        "type": "text"
+      },
+      "created_at": {
+        "properties": {
+          "type": {
+            "analyzer": "ru_en",
+            "type": "text"
+          }
+        }
+      },
+      "description": {
+        "analyzer": "ru_en",
+        "type": "text"
+      },
+      "director": {
+        "analyzer": "ru_en",
+        "type": "text"
+      },
+      "genre": {
+        "type": "keyword"
+      },
+      "id": {
+        "type": "keyword"
+      },
+      "imdb_rating": {
+        "type": "float"
+      },
+      "title": {
+        "analyzer": "ru_en",
+        "fields": {
+          "raw": {
+            "type": "keyword"
+          }
+        },
+        "type": "text"
+      },
+      "type": {
+        "properties": {
+          "type": {
+            "analyzer": "ru_en",
+            "type": "text"
+          }
+        }
+      },
+      "updated_at": {
+        "properties": {
+          "type": {
+            "analyzer": "ru_en",
+            "type": "text"
+          }
+        }
+      },
+      "writers": {
+        "dynamic": "strict",
+        "properties": {
+          "id": {
+            "type": "keyword"
+          },
+          "name": {
+            "analyzer": "ru_en",
+            "type": "text"
+          }
+        },
+        "type": "nested"
+      },
+      "writers_names": {
+        "analyzer": "ru_en",
+        "type": "text"
+      }
+    }
+  }
+}

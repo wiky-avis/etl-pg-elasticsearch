@@ -1,0 +1,53 @@
+{
+  "settings": {
+    "index": {
+      "analysis": {
+        "analyzer": {
+          "ru_en": {
+            "filter": [
+              "lowercase",
+              "english_stop",
+              "english_stemmer",
+              "english_possessive_stemmer",
+              "russian_stop",
+              "russian_stemmer"
+            ],
+            "tokenizer": "standard"
+          }
+        },
+        "filter": {
+          "english_possessive_stemmer": {
+            "language": "possessive_english",
+            "type": "stemmer"
+          },
+          "english_stemmer": {
+            "language": "english",
+            "type": "stemmer"
+          },
+          "english_stop": {
+            "stopwords": "_english_",
+            "type": "stop"
+          },
+          "russian_stemmer": {
+            "language": "russian",
+            "type": "stemmer"
+          },
+          "russian_stop": {
+            "stopwords": "_russian_",
+            "type": "stop"
+          }
+        }
+      },
+      "number_of_replicas": "1",
+      "number_of_shards": "1",
+      "refresh_interval": "1s",
+      "routing": {
+        "allocation": {
+          "include": {
+            "_tier_preference": "data_content"
+          }
+        }
+      }
+    }
+  }
+}
