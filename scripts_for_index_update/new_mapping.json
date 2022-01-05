@@ -12,7 +12,8 @@
       "properties": {
         "type": {
           "analyzer": "ru_en",
-          "type": "text"
+          "type": "date",
+          "format": "dd-MM-yyyy HH:mm:ss"
         }
       }
     },
@@ -20,7 +21,8 @@
       "properties": {
         "type": {
           "analyzer": "ru_en",
-          "type": "text"
+          "type": "date",
+          "format": "dd-MM-yyyy HH:mm:ss"
         }
       }
     }

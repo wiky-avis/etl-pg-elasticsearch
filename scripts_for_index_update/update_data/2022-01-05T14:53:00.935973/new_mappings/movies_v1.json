@@ -23,7 +23,8 @@
         "properties": {
           "type": {
             "analyzer": "ru_en",
-            "type": "text"
+            "format": "dd-MM-yyyy HH:mm:ss",
+            "type": "date"
           }
         }
       },
@@ -65,7 +66,8 @@
         "properties": {
           "type": {
             "analyzer": "ru_en",
-            "type": "text"
+            "format": "dd-MM-yyyy HH:mm:ss",
+            "type": "date"
           }
         }
       },
