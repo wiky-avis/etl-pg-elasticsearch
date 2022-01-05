@@ -5,7 +5,8 @@
         "type": {
           "analyzer": "ru_en",
           "type": "text"
-        }
+        },
+        "dynamic":  true
       }
     },
     "created_at": {
@@ -13,7 +14,8 @@
         "type": {
           "type": "date",
           "format": "dd-MM-yyyy HH:mm:ss"
-        }
+        },
+        "dynamic":  true
       }
     },
     "updated_at": {
@@ -21,7 +23,8 @@
         "type": {
           "type": "date",
           "format": "dd-MM-yyyy HH:mm:ss"
-        }
+        },
+        "dynamic":  true
       }
     }
   }
