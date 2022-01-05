@@ -5,7 +5,7 @@ from distutils.util import strtobool
 ES_URL = "http://0.0.0.0:9200"
 
 # посмотреть что получается
-REALLY = strtobool(os.environ.get("REALLY", "False"))
+REALLY = strtobool(os.environ.get("REALLY", "True"))
 
 JSON_DUMP_PARAMS = {"sort_keys": True, "indent": 2, "separators": (",", ": ")}
 BASE_DIR = "./update_data/"
